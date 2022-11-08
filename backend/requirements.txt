@@ -1,0 +1,6 @@
+APScheduler==3.9.1
+ccxt==1.95.2
+fastapi==0.85.0
+pandas==1.5.0
+pandas-ta==0.3.14b0
+python-dotenv==0.21.0
