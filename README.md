@@ -6,8 +6,8 @@
 
 Requirement
 
-- python
-- nodejs
+- python 3.8
+- optional: nodejs / Docker
 
 Install
 
@@ -27,6 +27,14 @@ npm install pm2 -g
 cd backend
 pm2 start main.py
 
+```
+
+Or using docker
+
+```bash
+#build image first
+docker build --tag name
+docker run -p 8000:8000 name
 ```
 
 ---
