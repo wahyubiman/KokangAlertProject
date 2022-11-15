@@ -11,24 +11,22 @@ class ExchangeConnector:
     Exchange Connnector
     """
 
-    def __init__(self, exchange: str, market_type: str = "spot"):
+    def __init__(self, exchange: str, market_type: str = None):
         """
         _summary_
 
         Args:
             exchange (str): exchange name supported by ccxt
-            market_type (str, optional): market type ex: spot, future, etc. Defaults to 'spot'.
+            market_type (str, optional): market type ex: spot, future, etc. Defaults to None.
 
         Raises:
             ccxt.ExchangeNotAvailable: exchange not supported
         """
 
         if exchange in ccxt.exchanges:
-            self.exchange = getattr(ccxt, exchange)(
-                {
-                    "options": {"defaultType": market_type},
-                }
-            )
+            self.exchange = getattr(ccxt, exchange)()
+            if market_type:
+                self.exchange.options["defaultType"] = market_type
         else:
             raise ccxt.ExchangeNotAvailable(
                 f"{exchange} exchange not supported by CCXT"
