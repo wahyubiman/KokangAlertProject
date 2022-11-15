@@ -34,7 +34,7 @@ Or using docker
 ```bash
 #build image first
 docker build --tag name
-docker run -p 8000:8000 name
+docker run -env-file /path/.env -p 8000:8000 name
 ```
 
 ---
