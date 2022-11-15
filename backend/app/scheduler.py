@@ -26,7 +26,7 @@ def scanner_msb_4h():
     """
     run MSB scanner on 4h timeframe
     """
-    webhook_url = os.getenv("DISCORD_WEBHOOK_MSB_1H")
+    webhook_url = os.getenv("DISCORD_WEBHOOK_MSB_4H")
     dfs = ExchangeConnector("binanceusdm").data("4h")
     result = MSB().result(dfs)
     if len(result["high"]) != 0 and len(result["low"]) != 0:
