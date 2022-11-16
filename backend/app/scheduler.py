@@ -18,7 +18,7 @@ def scanner_msb_1h():
     webhook_url = os.getenv("DISCORD_WEBHOOK_MSB_1H")
     dfs = ExchangeConnector("binanceusdm").data()
     result = MSB().result(dfs)
-    if len(result["high"]) != 0 and len(result["low"]) != 0:
+    if len(result["high"]) != 0 or len(result["low"]) != 0:
         send_discord_msb_msg(webhook_url, result)
 
 
@@ -29,7 +29,7 @@ def scanner_msb_4h():
     webhook_url = os.getenv("DISCORD_WEBHOOK_MSB_4H")
     dfs = ExchangeConnector("binanceusdm").data("4h")
     result = MSB().result(dfs)
-    if len(result["high"]) != 0 and len(result["low"]) != 0:
+    if len(result["high"]) != 0 or len(result["low"]) != 0:
         send_discord_msb_msg(webhook_url, result)
 
 
