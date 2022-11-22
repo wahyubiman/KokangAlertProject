@@ -19,7 +19,7 @@ def scanner_msb_1h():
     dfs = ExchangeConnector("binanceusdm").data()
     result = MSB().result(dfs)
     if len(result["high"]) != 0 or len(result["low"]) != 0:
-        send_discord_msb_msg(webhook_url, result)
+        send_discord_msb_msg(webhook_url, "MSB alert | 1h | Binance Future", result)
 
 
 def scanner_msb_4h():
@@ -30,7 +30,7 @@ def scanner_msb_4h():
     dfs = ExchangeConnector("binanceusdm").data("4h")
     result = MSB().result(dfs)
     if len(result["high"]) != 0 or len(result["low"]) != 0:
-        send_discord_msb_msg(webhook_url, result)
+        send_discord_msb_msg(webhook_url, "MSB alert | 4h | Binance Future", result)
 
 
 def background_task():

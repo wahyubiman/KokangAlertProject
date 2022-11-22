@@ -5,34 +5,32 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 # rate limit has been lifted
 
 
-def send_discord_msb_msg(url: str, messages: dict):
+def send_discord_msb_msg(url: str, title: str, messages: dict):
     """
     send notification via discord webhook
 
     Args:
         url (str): webhook url
+        title (str): title for message
         messages (dict): dict with high & low key
     """
-    msb_high_text = ""
-    msb_low_text = ""
-    if len(messages["high"]) == 0:
-        msb_high_text = "~~~"
-    else:
-        for msg_high in messages["high"]:
-            msb_high_text += "- " + msg_high + "\n"
-    if len(messages["low"]) == 0:
-        msb_low_text = "~~~"
-    else:
-        for msg_low in messages["low"]:
-            msb_low_text += "- " + msg_low + "\n"
     webhook = DiscordWebhook(url=url, rate_limit_retry=True)
     embed = DiscordEmbed(
-        title="MSB alert | 1h | Binance Future",
-        description="@everyone, this alert trigger when Market Structure Break Happen \n\n",
+        title=title,
+        description="@everyone\n\n",
         color="03b2f8",
     )
-    embed.add_embed_field(name="High Break", value=msb_high_text)
-    embed.add_embed_field(name="Low Break", value=msb_low_text)
+    msb_high_text = ""
+    msb_low_text = ""
+    if len(messages["high"]) != 0:
+        for msg_high in messages["high"]:
+            msb_high_text += "- " + msg_high + "\n"
+        embed.add_embed_field(name="High Break", value=msb_high_text)
+    if len(messages["low"]) != 0:
+        for msg_low in messages["low"]:
+            msb_low_text += "- " + msg_low + "\n"
+        embed.add_embed_field(name="Low Break", value=msb_low_text)
+
     embed.set_footer(text="Created by: Kokang")
     embed.set_timestamp()
     webhook.add_embed(embed)
