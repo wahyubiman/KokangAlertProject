@@ -3,7 +3,7 @@ import ccxt
 import requests
 import asyncio
 import pandas as pd
-from typing import List
+from typing import List, Dict
 
 
 class ExchangeConnector:
@@ -11,22 +11,25 @@ class ExchangeConnector:
     Exchange Connnector
     """
 
-    def __init__(self, exchange: str, market_type: str = None):
+    def __init__(self, exchange: str, market_type: str = None, proxies: Dict = None):
         """
-        _summary_
+        init
 
         Args:
             exchange (str): exchange name supported by ccxt
-            market_type (str, optional): market type ex: spot, future, etc. Defaults to None.
+            market_type (str, optional): market type, ex spot or future. Defaults to None.
+            proxies (Dict, optional): proxies, ex {'http': 'host:port', 'https': 'host::port'}. Defaults to None.
 
         Raises:
-            ccxt.ExchangeNotAvailable: exchange not supported
+            ccxt.ExchangeNotAvailable: throw exception when exchange not available
         """
 
         if exchange in ccxt.exchanges:
             self.exchange = getattr(ccxt, exchange)()
             if market_type:
                 self.exchange.options["defaultType"] = market_type
+            if proxies:
+                self.exchange.proxies = proxies
         else:
             raise ccxt.ExchangeNotAvailable(
                 f"{exchange} exchange not supported by CCXT"
