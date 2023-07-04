@@ -2,6 +2,7 @@
 import ccxt
 import requests
 import asyncio
+from sentry_sdk import capture_exception
 import pandas as pd
 from typing import List, Dict
 
@@ -118,13 +119,16 @@ class ExchangeConnector:
             List[pandas.DataFrame]: list of ohlcv dataframe
         """
 
-        symbol_list = self.get_symbol_list(quote=quote)
-        task = [
-            asyncio.create_task(self._get_ohlcv(symbol, timeframe=timeframe))
-            for symbol in symbol_list  # [-20:]
-        ]
-        result = await asyncio.gather(*task)
-        return result
+        try:
+            symbol_list = self.get_symbol_list(quote=quote)
+            task = [
+                asyncio.create_task(self._get_ohlcv(symbol, timeframe=timeframe))
+                for symbol in symbol_list  # [-20:]
+            ]
+            result = await asyncio.gather(*task)
+            return result
+        except Exception as e:
+            capture_exception(e)
 
     def data(self, timeframe: str = "1h", quote: str = "USDT") -> List[pd.DataFrame]:
         """

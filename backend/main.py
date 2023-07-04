@@ -1,9 +1,20 @@
 import uvicorn
+import os
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from app.scheduler import background_task
+import sentry_sdk
 
+# --- load .env
 load_dotenv()
+
+# ---- init sentry sdk
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_URL"),
+    traces_sample_rate=1.0,
+)
+
+# --- init FastApi
 app = FastAPI()
 
 # --- FastAPI event handler
