@@ -5,6 +5,19 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 # rate limit has been lifted
 
 
+def discord_webhook_init(url: str) -> DiscordWebhook:
+    """
+    init discord webhook
+
+    Args:
+        url (str): url webhook
+
+    Returns:
+        DiscordWebhook: DiscordWebhook class
+    """
+    return DiscordWebhook(url=url, rate_limit_retry=True)
+
+
 def send_discord_msb_msg(url: str, title: str, messages: dict):
     """
     send notification via discord webhook
@@ -14,7 +27,7 @@ def send_discord_msb_msg(url: str, title: str, messages: dict):
         title (str): title for message
         messages (dict): dict with high & low key
     """
-    webhook = DiscordWebhook(url=url, rate_limit_retry=True)
+    webhook = discord_webhook_init(url)
     embed = DiscordEmbed(
         title=title,
         description="@everyone\n\n",
@@ -34,4 +47,4 @@ def send_discord_msb_msg(url: str, title: str, messages: dict):
     embed.set_footer(text="Created by: Kokang")
     embed.set_timestamp()
     webhook.add_embed(embed)
-    response = webhook.execute()
+    webhook.execute()
