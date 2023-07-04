@@ -45,11 +45,11 @@ class MSB:
         for df in dfs:
             df = self._fractal3(df)
             if (df.bos_h[-1:].values[0] == 1) and (
-                df.bos_h[-1:].values[0] > df.ema[-1:].values[0]
+                df.zh[-1:].values[0] > df.ema[-1:].values[0]
             ):
                 result["high"].append(df.name)
             elif (df.bos_l[-1:].values[0] == 1) and (
-                df.bos_l[-1:].values[0] < df.ema[-1:].values[0]
+                df.zl[-1:].values[0] < df.ema[-1:].values[0]
             ):
                 result["low"].append(df.name)
         return result
