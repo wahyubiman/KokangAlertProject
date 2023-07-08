@@ -47,7 +47,7 @@ def scanner_macd_cross_5m():
     """
     try:
         webhook_url = os.getenv("DISCORD_WEBHOOK_MACD_CROSS_5m")
-        dfs = ExchangeConnector("binance", "future").data()
+        dfs = ExchangeConnector("binance", "future").data("5m")
         result = MSB().result(dfs)
         if len(result["high"]) != 0 or len(result["low"]) != 0:
             send_discord_msb_msg(
@@ -65,7 +65,7 @@ def background_task():
         # scheduler.add_job(scanner_msb_1h, "cron", hour="0-23")  # run every hour
         # scheduler.add_job(scanner_msb_4h, "cron", hour="*/4")  # run every 4 hour
         scheduler.add_job(
-            scanner_macd_cross_5m, "cron", minute="*/5", hour="0-14"
+            scanner_macd_cross_5m, "cron", minute="*/5", hour="23,0-14"
         )  # run macd every 5 minute in 0 - 14 UTC hour
         scheduler.start()  # start the scheduler
         # asyncio.get_event_loop().run_forever()
