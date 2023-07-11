@@ -9,6 +9,7 @@ from app.indicator_alert.connector import ExchangeConnector
 from app.indicator_alert.strategy.msb import MSB
 from app.indicator_alert.strategy.macd import MacdCross
 from app.notification.discord import send_discord_msb_msg
+from app.notification.ntfy import send_notif
 
 scheduler = AsyncIOScheduler()
 
@@ -46,13 +47,10 @@ def scanner_macd_cross_5m():
     run MSB scanner on 5m timeframe
     """
     try:
-        webhook_url = os.getenv("DISCORD_WEBHOOK_MACD_CROSS_5m")
         dfs = ExchangeConnector("binance", "future").data("5m")
         result = MSB().result(dfs)
         if len(result["high"]) != 0 or len(result["low"]) != 0:
-            send_discord_msb_msg(
-                webhook_url, "MACD Cross alert | 5m | Binance Future", result
-            )
+            send_notif("MACD Cross alert | 5m | Binance Future", result)
     except Exception as e:
         capture_exception(e)
 
