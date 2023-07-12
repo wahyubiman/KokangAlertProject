@@ -50,7 +50,12 @@ def scanner_macd_cross_5m():
         dfs = ExchangeConnector("binance", "future").data("5m")
         result = MSB().result(dfs)
         if len(result["high"]) != 0 or len(result["low"]) != 0:
-            send_notif("MACD Cross alert | 5m | Binance Future", result)
+            send_notif(
+                "MACD Cross alert | 5m | Binance Future",
+                result,
+                os.getenv("NTFY_USERNAME"),
+                os.getenv("NTFY_PASSWORD"),
+            )
     except Exception as e:
         capture_exception(e)
 
