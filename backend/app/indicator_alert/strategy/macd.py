@@ -18,8 +18,10 @@ class MacdCross:
         Returns:
             pd.DataFrame: ohlcv dataframe with macd cross included
         """
+        symbol = df.name
         df_macd = round(ta.macd(df.close), 2)  # macd
         df = df.join(df_macd)
+        df.name = symbol
         df.columns = [
             "timestamp",
             "open",
